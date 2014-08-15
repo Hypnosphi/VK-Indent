@@ -27,7 +27,9 @@
         var caller;
         caller = arguments.callee.caller;
         if (caller === (typeof IM !== "undefined" && IM !== null ? IM.send : void 0) || caller === (typeof IM !== "undefined" && IM !== null ? IM.sendNewMsg : void 0) || caller === (typeof FastChat !== "undefined" && FastChat !== null ? FastChat.send : void 0) || caller === (typeof Composer !== "undefined" && Composer !== null ? Composer.getSendParams : void 0)) {
-          replaceInNodes(node, /\s/g, '&#8194;');
+          replaceInNodes(node, /(^|\b\s)(\s+)\b/g, function(match, p1, p2) {
+            return p1 + Array(p2.length + 1).join('&#8194;');
+          });
         }
         return func.apply(this, arguments);
       };

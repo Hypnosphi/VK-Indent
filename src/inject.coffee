@@ -20,5 +20,8 @@ do replaceEditableVal = ->
         FastChat?.send
         Composer?.getSendParams
       ]
-        replaceInNodes node, /\s/g, '&#8194;'
+        # replace all the spaces at the beginning of string
+        # and all but one space in between two words
+        replaceInNodes node, /(^|\b\s)(\s+)\b/g, (match, p1, p2) ->
+          p1 + Array(p2.length + 1).join '&#8194;'
       func.apply this, arguments
